@@ -47,7 +47,7 @@ pip install -r requirements.txt
 ## ▶️ Usage
 1. Run the chatbot:
    ```bash
-   streamlit run app.py
+   streamlit run chatbot_app.py
    ```
 2. Upload a document (DOCX, PDF, etc.).
 3. Ask your questions in the chat interface.
