@@ -148,57 +148,48 @@ def prepare_doc(docx_file) -> List[dict]:
     if diagrams_for_ascii:
         joined = "\n\n".join(diagrams_for_ascii)
         prompt = f"""
-You are a Platform Support Engineer and System Analyst.
-
-Your task is to convert the following extracted OCR text from a sequence diagram image into two things:
-
-1. A clean, properly aligned **ASCII sequence diagram** using lifelines and arrows.
-2. A **numbered step-by-step textual description** of the message flow.
-
----
-
-Participants:
-- User
-- Service Provider
-- TPAY
-- Etisalat
-
----
-
-ASCII Format Example:
-User               Service Provider       TPAY                 Etisalat
-  |                       |                  |                      |
-  |--Subscribe----------->|                  |                      |
-  |                       |--Send OTP------->|                      |
-  |                       |                  |--Send SMS---------> |
-  |<--Enter OTP-----------|                  |                      |
-  |                       |--Verify OTP----->|                      |
-  |                       |                  |--Charge-----------> |
-  |                       |                  |<--Success---------- |
-  |                       |<--Confirmation---|                      |
-  |<--Final OK------------|                  |                      |
-
----
-
-Flow Description Example:
-1. User sends subscription request to Service Provider.
-2. Service Provider sends OTP request to TPAY.
-3. TPAY forwards OTP to Etisalat for delivery.
-4. User enters OTP.
-5. Service Provider verifies OTP through TPAY.
-6. TPAY charges the user via Etisalat.
-7. Etisalat confirms the charge.
-8. Confirmation is passed back to User.
-
----
-
-Text to convert:
-{joined}
-
----
-
-Return ONLY the ASCII diagram followed by the numbered flow description.
-"""
+                You are a System Analyst.
+                
+                Convert the following extracted OCR text from a sequence diagram into:
+                
+                1. A **clean ASCII sequence diagram** (lifelines and arrows).
+                2. A **step-by-step textual description** of the flow.
+                
+                ---
+                
+                Participants (example):
+                - User
+                - Web App
+                - Processing Service
+                - Database
+                
+                ASCII Format Example:
+                User              Web App           Processing Service       Database
+                  |                  |                     |                    |
+                  |--Upload Doc----->|                     |                    |
+                  |                  |--Send File--------->|                    |
+                  |                  |                     |--Store Metadata--->|
+                  |                  |                     |<--Confirm Stored---|
+                  |                  |<--Processed Result--|                    |
+                  |<--Show Result----|                     |                    |
+                
+                Flow Description Example:
+                1. User uploads a document through the Web App.
+                2. The Web App forwards the document to the Processing Service.
+                3. The Processing Service stores metadata in the Database.
+                4. Database confirms.
+                5. Service returns results.
+                6. Web App shows result to User.
+                
+                ---
+                
+                Text to convert:
+                {joined}
+                
+                ---
+                
+                Return ONLY the ASCII diagram followed by the numbered flow description.
+                """
 
         try:
             ascii_diagram = llm.invoke(prompt).content.strip()
