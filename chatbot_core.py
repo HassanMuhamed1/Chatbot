@@ -16,7 +16,7 @@ import pytesseract
 import re
 
 pytesseract.pytesseract.tesseract_cmd = r'C:/Users/hassa/AppData/Local/Programs/Tesseract-OCR/tesseract.exe'
-os.environ["GOOGLE_API_KEY"] = "AIzaSyAWL1loBZmO2LgYkGNvpcAI912gIkL1PUo"
+os.environ["GOOGLE_API_KEY"] = "ur_api_key"
 
 llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0)
 
